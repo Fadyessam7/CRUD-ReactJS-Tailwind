@@ -8,11 +8,11 @@ interface IProps {
 }
 const ProductCard = ({ product }: IProps) => {
   return (
-    <div className="border rounded-md p-2 flex flex-col m-1.5">
+    <div className="max-w-sm md:max-w-lg mx-auto md:mx-0 border rounded-md p-2 flex flex-col m-1.5">
       <Image
         imageURL={product.imageURL}
         alt={"product name"}
-        className={"rounded-md"}
+        className={"w-full h-auto rounded-md object-cover aspect-[4/3]"}
       ></Image>
       <h3>{product.title}</h3>
       <p>{textSlicer(product.description)}</p>
@@ -22,12 +22,10 @@ const ProductCard = ({ product }: IProps) => {
         <span className="w-6 h-6 rounded-full bg-red-500 "></span>
       </div>
       <div className="flex items-center justify-between">
-        <span>${product.price}</span>
+        <span className="text-indigo-900">${product.price}</span>
         <Image
-          imageURL={
-            "https://images.nwgmedia.com/preview/365825/2261077-632_Base_front.jpg"
-          }
-          alt={"product name"}
+          imageURL={product.category.imageURL}
+          alt={product.category.name}
           className={
             "w-10 h-10 rounded-full border-gray-400 border-1 object-center"
           }
