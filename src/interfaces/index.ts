@@ -2,6 +2,7 @@ import { ProductNameTypes } from "../types";
 
 
 export interface IProduct {
+  value: string | number | readonly string[] | undefined;
   id?: string;
   title: string;
   description: string;
