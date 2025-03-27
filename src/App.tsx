@@ -1,12 +1,13 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 import ProductCard from "./components/ProductCard";
 import Modal from "./components/ui/Modal";
-import { formInputsList, productList } from "./data";
+import { colors, formInputsList, productList } from "./data";
 import Button from "./components/ui/Button";
 import Input from "./components/ui/Input";
 import { IProduct } from "./interfaces";
 import { productValidation } from "./validation";
 import ErrorMessage from "./components/ErrorMessage";
+import CircleColor from "./components/CircleColor";
 
 function App() {
   const defaultProductObj = {
@@ -24,12 +25,14 @@ function App() {
   /*-------- STATE --------*/
   const [product, setProduct] = useState<IProduct>(defaultProductObj);
   const [isOpen, setIsOpen] = useState(false);
+  const [tempColors, setTempColors] = useState<string[]>([]);
   const [errors, setErrors] = useState({
     title: "",
     description: "",
     imageURL: "",
     price: "",
   });
+  console.log(tempColors);
 
   /*-------- HANDLER --------*/
   function openModal() {
@@ -101,18 +104,49 @@ function App() {
       </div>
     );
   });
-
+  const renderProductColors = colors.map((color) => (
+    <CircleColor
+      key={color}
+      color={color}
+      onClick={() => {
+        if (tempColors.includes(color)) {
+          setTempColors((prev) => prev.filter((item) => item != color));
+          return;
+        }
+        setTempColors((prev) => [...prev, color]);
+      }}
+    ></CircleColor>
+  ));
   return (
     <main className="container mx-auto px-4 sm:px-6 lg:px-8">
-      <Button className="bg-green-700 w-fit" onClick={openModal}>
-        Open Modal
-      </Button>
+      <div className="flex justify-center mt-8 mb-8">
+        <Button className="bg-indigo-700" onClick={openModal} width="w-fit">
+          Build Product
+        </Button>
+      </div>
       <div className="m-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 md:gap-4 p-2 rounded-md">
         {renderProductList}
       </div>
       <Modal isOpen={isOpen} closeModal={closeModal} title={"Add New Product"}>
         <form className="space-y-3" onSubmit={submitHandler}>
           {renderInputsList}
+          <div className="flex flex-wrap items-center my-4 space-x-2">
+            {tempColors.map((color) => {
+              return (
+                <span
+                  key={color}
+                  style={{ backgroundColor: color }}
+                  className="p-1 mr-1 mb-1 text-xs rounded-md text-white"
+                >
+                  {color}
+                </span>
+              );
+            })}
+          </div>
+          <div className="flex flex-wrap items-center my-4 space-x-2">
+            {renderProductColors}
+          </div>
+
           <div className="flex items-center space-x-3">
             <Button className="bg-indigo-700 hover:bg-indigo-800">
               Submit
