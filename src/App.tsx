@@ -1,7 +1,7 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 import ProductCard from "./components/ProductCard";
 import Modal from "./components/ui/Modal";
-import { colors, formInputsList, productList } from "./data";
+import { categories, colors, formInputsList, productList } from "./data";
 import Button from "./components/ui/Button";
 import Input from "./components/ui/Input";
 import { IProduct } from "./interfaces";
@@ -9,13 +9,14 @@ import { productValidation } from "./validation";
 import ErrorMessage from "./components/ErrorMessage";
 import CircleColor from "./components/CircleColor";
 import { v4 as uuid } from "uuid";
+import Select from "./components/ui/Select";
 
 function App() {
   const defaultProductObj = {
     title: "",
     description: "",
     imageURL: "",
-    value: "",
+    // value: "",
     price: "",
     colors: [],
     category: {
@@ -35,6 +36,7 @@ function App() {
     price: "",
   });
   console.log(tempColors);
+  const [selectedCategory, setSelectedCategory] = useState(categories[0]);
 
   /*-------- HANDLER --------*/
   function openModal() {
@@ -79,7 +81,12 @@ function App() {
       setErrors(errors);
     }
     setProducts((prev) => [
-      { ...product, id: uuid(), colors: tempColors },
+      {
+        ...product,
+        id: uuid(),
+        colors: tempColors,
+        category: selectedCategory,
+      },
       ...prev,
     ]);
     setProduct(defaultProductObj);
@@ -153,10 +160,13 @@ function App() {
               );
             })}
           </div>
+          <Select
+            selected={selectedCategory}
+            setSelected={setSelectedCategory}
+          ></Select>
           <div className="flex flex-wrap items-center my-4 space-x-2">
             {renderProductColors}
           </div>
-
           <div className="flex items-center space-x-3">
             <Button className="bg-indigo-700 hover:bg-indigo-800">
               Submit

@@ -20,7 +20,7 @@ const ProductCard = ({ product }: IProps) => {
       <Image
         imageURL={imageURL}
         alt={"product name"}
-        className={"w-full h-auto rounded-md object-cover aspect-[4/3]"}
+        className={"w-full h-auto rounded-md object-center aspect-[4/3]"}
       ></Image>
       <h3 className="font-semibold my-3">{title}</h3>
       <p>{textSlicer(description)}</p>
