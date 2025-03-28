@@ -5,10 +5,17 @@ interface IProps {
   isOpen: boolean;
   closeModal: () => void;
   title: string;
+  description?: string;
   children?: ReactNode;
 }
 
-const Modal = ({ isOpen, closeModal, title, children }: IProps) => {
+const Modal = ({
+  isOpen,
+  closeModal,
+  title,
+  description,
+  children,
+}: IProps) => {
   return (
     <>
       <Dialog
@@ -32,6 +39,7 @@ const Modal = ({ isOpen, closeModal, title, children }: IProps) => {
                     {title}
                   </DialogTitle>
                 )}
+                <div className="mt-3 font-light">{description}</div>
                 <div className="mt-4">{children}</div>
               </DialogPanel>
             </div>

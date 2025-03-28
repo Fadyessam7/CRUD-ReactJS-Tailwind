@@ -11,6 +11,7 @@ import CircleColor from "./components/CircleColor";
 import { v4 as uuid } from "uuid";
 import Select from "./components/ui/Select";
 import { ProductNameTypes } from "./types";
+import toast, { Toaster } from "react-hot-toast";
 
 function App() {
   const defaultProductObj = {
@@ -33,6 +34,7 @@ function App() {
   const [productToEditIndex, setProductToEditIndex] = useState<number>(0);
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenEditModal, setIsOpenEditModal] = useState(false);
+  const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false);
   const [tempColors, setTempColors] = useState<string[]>([]);
   const [errors, setErrors] = useState({
     title: "",
@@ -57,6 +59,12 @@ function App() {
 
   function closeEditModal() {
     setIsOpenEditModal(false);
+  }
+  function openConfirmModal() {
+    setIsOpenConfirmModal(true);
+  }
+  function closeConfirmModal() {
+    setIsOpenConfirmModal(false);
   }
 
   const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
@@ -86,6 +94,21 @@ function App() {
   const onCancel = (): void => {
     setProduct(defaultProductObj);
     closeModal();
+  };
+
+  const removeProductHandler = () => {
+    const filteredProduct = products.filter(
+      (product) => product.id !== productToEdit.id
+    );
+    setProducts(filteredProduct);
+    closeConfirmModal();
+    toast("Product Has Been Deleted", {
+      icon: "👏",
+      style: {
+        backgroundColor: "black",
+        color: "white",
+      },
+    });
   };
   const submitHandler = (event: FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
@@ -155,6 +178,7 @@ function App() {
         setIsOpenEditModal={openEditModal}
         index={index}
         setProductToEditIndex={setProductToEditIndex}
+        setIsOpenConfirmModal={openConfirmModal}
       />
     );
   });
@@ -226,7 +250,11 @@ function App() {
   return (
     <main className="container mx-auto px-4 sm:px-6 lg:px-8">
       <div className="flex justify-center mt-8 mb-8">
-        <Button className="bg-indigo-700 px-12" onClick={openModal} width="w-fit">
+        <Button
+          className="bg-indigo-700 px-12"
+          onClick={openModal}
+          width="w-fit"
+        >
           Build Product
         </Button>
       </div>
@@ -324,6 +352,29 @@ function App() {
           </div>
         </form>
       </Modal>
+      /* Confirm Delete Modal*/
+      <Modal
+        isOpen={isOpenConfirmModal}
+        closeModal={closeConfirmModal}
+        title={"Are you sure you want to remove this Product from your Store?"}
+        description="Deleting this product will remove it permanently from your inventory. Any associated data, sales history, and other related information will also be deleted. Please make sure this intended action."
+      >
+        <div className=" flex items-center space-x-3">
+          <Button
+            className="bg-[#c2344d] hover:bg-red-800"
+            onClick={removeProductHandler}
+          >
+            Yes, remove
+          </Button>
+          <Button
+            className="bg-[#e3e3e4] hover:bg-gray-300"
+            onClick={closeConfirmModal}
+          >
+            Cancel
+          </Button>
+        </div>
+      </Modal>
+      <Toaster></Toaster>
     </main>
   );
 }
