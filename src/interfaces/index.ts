@@ -3,7 +3,7 @@ import { ProductNameTypes } from "../types";
 
 export interface IProduct {
   // value: string | number | readonly string[] | undefined;
-  id?: string;
+  id?: string | undefined;
   title: string;
   description: string;
   imageURL: string;
