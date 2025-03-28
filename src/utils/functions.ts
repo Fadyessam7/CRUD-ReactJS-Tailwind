@@ -12,3 +12,13 @@ export function textSlicer(txt: string, max: number = 80) {
     return txt;
   }
 }
+
+/**
+ * @param {string | number} price - The price to format
+ * @returns {string} Formatted price string
+ */
+export const formatPrice = (price: string | number): string => {
+  const priceNumber = typeof price === "string" ? parseFloat(price) : price;
+  if (isNaN(priceNumber)) return price.toString();
+  return priceNumber.toLocaleString("en-US");
+};

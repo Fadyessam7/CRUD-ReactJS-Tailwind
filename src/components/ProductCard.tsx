@@ -1,5 +1,5 @@
 import { IProduct } from "../interfaces";
-import { textSlicer } from "../utils/functions";
+import { formatPrice, textSlicer } from "../utils/functions";
 import CircleColor from "./CircleColor";
 import Image from "./Image";
 import Button from "./ui/Button";
@@ -30,6 +30,7 @@ const ProductCard = ({
     setIsOpenEditModal();
     setProductToEditIndex(index);
   };
+  
   return (
     <div className="max-w-sm md:max-w-lg mx-auto md:mx-0 border rounded-md p-2 flex flex-col m-1.5">
       <Image
@@ -43,20 +44,25 @@ const ProductCard = ({
         {renderProductColors}
       </div>
       <div className="flex items-center justify-between">
-        <span className="text-indigo-900">${price}</span>
-        <Image
-          imageURL={category.imageURL}
-          alt={category.name}
-          className={
-            "w-10 h-10 rounded-full border-gray-400 border-1 object-center"
-          }
-        ></Image>
+        <span className="text-indigo-900">${formatPrice(price)}</span>
+        <div className="flex items-center">
+          <span className="px-3 font-semibold text-gray-700">
+            {category.name}
+          </span>
+          <Image
+            imageURL={category.imageURL}
+            alt={category.name}
+            className={
+              "w-10 h-10 rounded-full border-gray-400 border-1 object-center"
+            }
+          ></Image>
+        </div>
       </div>
       <div className="flex items-center justify-between space-x-4 mt-5">
-        <Button className="bg-indigo-700 " onClick={onEdit}>
+        <Button className="bg-indigo-800 hover:bg-indigo-900 " onClick={onEdit}>
           EDIT
         </Button>
-        <Button className="bg-red-700 ">DELETE</Button>
+        <Button className="bg-red-800 hover:bg-red-900">DELETE</Button>
       </div>
     </div>
   );

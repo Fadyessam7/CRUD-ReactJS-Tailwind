@@ -226,7 +226,7 @@ function App() {
   return (
     <main className="container mx-auto px-4 sm:px-6 lg:px-8">
       <div className="flex justify-center mt-8 mb-8">
-        <Button className="bg-indigo-700" onClick={openModal} width="w-fit">
+        <Button className="bg-indigo-700 px-12" onClick={openModal} width="w-fit">
           Build Product
         </Button>
       </div>
