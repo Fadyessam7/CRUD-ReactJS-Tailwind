@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { IProduct } from "../interfaces";
 import { formatPrice, textSlicer } from "../utils/functions";
 import CircleColor from "./CircleColor";
@@ -20,7 +21,7 @@ const ProductCard = ({
   setIsOpenEditModal,
   index,
   setProductToEditIndex,
-setIsOpenConfirmModal
+  setIsOpenConfirmModal,
 }: IProps) => {
   const { title, description, imageURL, colors, price, category } = product;
   /*-------- RENDER --------*/
@@ -77,4 +78,4 @@ setIsOpenConfirmModal
   );
 };
 
-export default ProductCard;
+export default memo(ProductCard);
