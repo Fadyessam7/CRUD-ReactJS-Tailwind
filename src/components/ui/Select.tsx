@@ -13,7 +13,7 @@ import { ICategory } from "../../interfaces";
 import { categories } from "../../data";
 
 interface IProps {
-  selected: {name:string , imageURL:string};
+  selected: { name: string; imageURL: string };
   setSelected: (category: ICategory) => void;
 }
 

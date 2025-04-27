@@ -42,7 +42,7 @@ function App() {
     imageURL: "",
     price: "",
   });
-  console.log(tempColors);
+  // console.log(tempColors);
   const [selectedCategory, setSelectedCategory] = useState(categories[0]);
 
   /*-------- HANDLER --------*/
@@ -93,6 +93,7 @@ function App() {
   };
   const onCancel = (): void => {
     setProduct(defaultProductObj);
+    setTempColors([]);
     closeModal();
   };
 
@@ -113,20 +114,35 @@ function App() {
   const submitHandler = (event: FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
     const { title, description, price, imageURL } = product;
+    if (
+      !title ||
+      !description ||
+      !price ||
+      !imageURL ||
+      tempColors.length === 0
+    ) {
+      toast("Please fill in all fields and select at least one color", {
+        icon: "⚠️",
+        style: {
+          backgroundColor: "black",
+          color: "white",
+        },
+      });
+      return;
+    }
+
     const errors = productValidation({
       title,
       description,
       imageURL,
       price,
     });
-    const hasErrMsg =
-      Object.values(errors).some((value) => value === "") &&
-      Object.values(errors).every((value) => value === "");
-    console.log(errors);
 
-    if (!hasErrMsg) {
+    if (Object.values(errors).some((value) => value !== "")) {
       setErrors(errors);
+      return;
     }
+
     setProducts((prev) => [
       {
         ...product,
@@ -152,7 +168,7 @@ function App() {
     const hasErrMsg =
       Object.values(errors).some((value) => value === "") &&
       Object.values(errors).every((value) => value === "");
-    console.log(errors);
+    // console.log(errors);
 
     if (!hasErrMsg) {
       setErrors(errors);
@@ -261,7 +277,7 @@ function App() {
       <div className="m-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 md:gap-4 p-2 rounded-md">
         {renderProductList}
       </div>
-      /* Add Product Modal */
+      {/* Add Product Modal */}
       <Modal isOpen={isOpen} closeModal={closeModal} title={"ADD NEW PRODUCT"}>
         <form className="space-y-3" onSubmit={submitHandler}>
           {renderInputsList}
@@ -298,7 +314,7 @@ function App() {
           </div>
         </form>
       </Modal>
-      /* Edit Product Modal */
+      {/* Edit Product Modal */}
       <Modal
         isOpen={isOpenEditModal}
         closeModal={closeEditModal}
@@ -352,7 +368,7 @@ function App() {
           </div>
         </form>
       </Modal>
-      /* Confirm Delete Modal*/
+      {/* Confirm Delete Modal*/}
       <Modal
         isOpen={isOpenConfirmModal}
         closeModal={closeConfirmModal}
